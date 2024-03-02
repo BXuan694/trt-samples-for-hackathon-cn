@@ -53,6 +53,10 @@ os.system("rm -rf ./*.onnx ./*.plan ./*.cache")
 np.set_printoptions(precision=3, linewidth=200, suppress=True)
 cudart.cudaDeviceSynchronize()
 
+
+
+
+
 # Create network and train model in pyTorch ------------------------------------
 class Net(t.nn.Module):
 
@@ -123,9 +127,18 @@ for epoch in range(10):
 
 print("Succeeded building model in pyTorch!")
 
+
+
+
+
+
+
+
 # Export model as ONNX file ----------------------------------------------------
 t.onnx.export(model, t.randn(1, 1, nHeight, nWidth, device="cuda"), onnxFile, input_names=["x"], output_names=["y", "z"], do_constant_folding=True, verbose=True, keep_initializers_as_inputs=True, opset_version=12, dynamic_axes={"x": {0: "nBatchSize"}, "z": {0: "nBatchSize"}})
 print("Succeeded converting model into ONNX!")
+
+
 
 # Parse network, rebuild network and do inference in TensorRT ------------------
 logger = trt.Logger(trt.Logger.VERBOSE)
